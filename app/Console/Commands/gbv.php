@@ -27,7 +27,7 @@ class gbv extends Command
      */
     public function handle()
     {
-        echo "working " . $this->argument("page-name");
+        $this->info('The command was successful!');
         return 0;
     }
 }
