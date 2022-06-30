@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreDeliverableRequest extends FormRequest
+class StoreEstimateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,11 @@ class StoreDeliverableRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|max:255",
-            "description" => "nullable|sometimes|string|max:255",
-            "unit" => "required|string|max:255",
-            "price" => "required|numeric|min:0",
+            "valid_till" => "required|date|max:255",
+            "discount_type" => "required|string|max:255",
+            "discount" => "required|numeric",
+            "customer_id" => "required|exists:customers,id",
+            "deliverables" => "required|array",
         ];
     }
 }

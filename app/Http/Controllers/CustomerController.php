@@ -17,7 +17,7 @@ class CustomerController extends Controller
     public function index()
     {
         return Inertia::render('Customers/Index', [
-            'customers' => Customer::all(),
+            'customers' => Customer::searchable()->filterable()->paginate(10),
         ]);
     }
 

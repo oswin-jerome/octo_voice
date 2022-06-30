@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class StoreDeliverableRequest extends FormRequest
+class UpdateEstimateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class StoreDeliverableRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return false;
     }
 
     /**
@@ -25,10 +24,7 @@ class StoreDeliverableRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|max:255",
-            "description" => "nullable|sometimes|string|max:255",
-            "unit" => "required|string|max:255",
-            "price" => "required|numeric|min:0",
+            //
         ];
     }
 }

@@ -5,14 +5,19 @@ import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeButton from '@/Components/Button.vue';
 
+
+
+
 const form = useForm({
     name: '',
-    email: '',
+    description: '',
+    price: '',
+    unit: '',
 
 })
 
 const submit = () => {
-    form.post(route('customers.store'), {
+    form.post(route('deliverables.store'), {
         onFinish: () => form.reset('name'),
     });
 }
@@ -26,7 +31,7 @@ const submit = () => {
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create Customer
+                Create Deliverable
             </h2>
         </template>
 
@@ -41,14 +46,24 @@ const submit = () => {
                                     required autocomplete="current-name" />
                             </div>
                             <div class="mt-4">
-                                <BreezeLabel for="email" value="email" />
-                                <BreezeInput v-model="form.email" id="email" type="email" class="mt-1 block w-full"
-                                    required autocomplete="current-email" />
+                                <BreezeLabel for="description" value="Description" />
+                                <BreezeInput v-model="form.description" id="description" type="text"
+                                    class="mt-1 block w-full" required autocomplete="current-description" />
+                            </div>
+                            <div class="mt-4">
+                                <BreezeLabel for="unit" value="Unit" />
+                                <BreezeInput v-model="form.unit" id="unit" type="text" class="mt-1 block w-full"
+                                    required autocomplete="current-unit" />
+                            </div>
+                            <div class="mt-4">
+                                <BreezeLabel for="price" value="Price" />
+                                <BreezeInput v-model="form.price" id="price" type="number" class="mt-1 block w-full"
+                                    required autocomplete="current-price" />
                             </div>
 
-                            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }"
+                            <BreezeButton class=" mt-8" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing">
-                                Log in
+                                Submit
                             </BreezeButton>
                         </form>
                     </div>

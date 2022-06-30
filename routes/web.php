@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliverableController;
+use App\Http\Controllers\EstimateController;
+use App\Models\Customer;
+use App\Models\Estimate;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,9 +32,18 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/test', function () {
+    return view('mail.estimate', [
+        "customer" => Customer::find(1),
+        "estimate" => Estimate::findOrFail(34)
+    ]);
+})->middleware(['auth', 'verified'])->name('test');
 
 Route::middleware("auth")->group(function () {
     Route::resource('customers', CustomerController::class);
+    Route::resource('deliverables', DeliverableController::class);
+    Route::resource('estimates', EstimateController::class);
+    Route::get('estimates/{estimate}/pdf', [EstimateController::class, "pdf"])->name("estimates.pdf");
 });
 
 require __DIR__ . '/auth.php';

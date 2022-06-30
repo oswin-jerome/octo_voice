@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeliverableRequest;
 use App\Http\Requests\UpdateDeliverableRequest;
 use App\Models\Deliverable;
+use Inertia\Inertia;
 
 class DeliverableController extends Controller
 {
@@ -15,7 +16,9 @@ class DeliverableController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Deliverables/Index', [
+            'deliverables' => Deliverable::searchable()->filterable()->paginate(10),
+        ]);
     }
 
     /**
@@ -25,7 +28,7 @@ class DeliverableController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Deliverables/Create');
     }
 
     /**
@@ -36,7 +39,8 @@ class DeliverableController extends Controller
      */
     public function store(StoreDeliverableRequest $request)
     {
-        //
+        $deliverable = Deliverable::create($request->validated());
+        return redirect()->route('deliverables.index');
     }
 
     /**

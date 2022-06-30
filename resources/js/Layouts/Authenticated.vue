@@ -6,6 +6,7 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import BreezeButton from '@/Components/Button.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -38,12 +39,14 @@ const showingNavigationDropdown = ref(false);
                                 </BreezeNavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex cursor-pointer">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('deliverables')">
+                                <BreezeNavLink :href="route('deliverables.index')"
+                                    :active="route().current('deliverables.*')">
                                     Deliverables
                                 </BreezeNavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex cursor-pointer">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('estimates')">
+                                <BreezeNavLink :href="route('estimates.index')"
+                                    :active="route().current('estimates.index')">
                                     Estimates
                                 </BreezeNavLink>
                             </div>
@@ -134,8 +137,16 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center">
+                        <slot name="header" />
+                        <slot name="header_action" />
+                        <Link disable v-if="!$slots.header_action" class="opacity-0">
+                        <BreezeButton>
+                            CC
+                        </BreezeButton>
+                        </Link>
+                    </div>
                 </div>
             </header>
 

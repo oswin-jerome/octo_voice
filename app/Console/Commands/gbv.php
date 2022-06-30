@@ -27,7 +27,15 @@ class gbv extends Command
      */
     public function handle()
     {
-        $this->info('The command was successful!');
+        $basepath = base_path();
+        $from = $basepath . "/resources/js/Pages/Dashboard.vue";
+        $to = $basepath . "/resources/js/Pages/" . $this->argument('page-name') . "";
+        // touch($to);
+        shell_exec("mkdir $to");
+        shell_exec("cp -r $from $to" . "/Index.vue");
+        shell_exec("cp -r $from $to" . "/Create.vue");
+        shell_exec("cp -r $from $to" . "/Edit.vue");
+        shell_exec("cp -r $from $to" . "/View.vue");
         return 0;
     }
 }
