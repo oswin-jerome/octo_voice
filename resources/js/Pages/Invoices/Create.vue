@@ -44,7 +44,10 @@ const subtotal = computed(
 const submit = () => {
     form.transform((data) => ({
         ...data,
-        deliverables: data.deliverables.map((deliverable) => (deliverable.id)),
+        deliverables: data.deliverables.map((deliverable) => ({
+            deliverable_id: deliverable.id,
+            quantity: deliverable.qty,
+        })),
     })).post(route('invoices.store'), {
         onFinish: () => form.reset(),
 
@@ -187,7 +190,8 @@ const removeItem = (ind) => {
                         </div>
                     </div>
                 </div>
-                <BreezeButton class=" mt-8" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <BreezeButton @click="submit" class=" mt-8" :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing">
                     Submit
                 </BreezeButton>
             </div>

@@ -46,6 +46,7 @@ Route::middleware("auth")->group(function () {
     Route::resource('estimates', EstimateController::class);
     Route::get('estimates/{estimate}/pdf', [EstimateController::class, "pdf"])->name("estimates.pdf");
     Route::resource('invoices', InvoiceController::class);
+    Route::get('invoices/{invoice}/pdf', [InvoiceController::class, "pdf"])->name("invoices.pdf");
 });
 
 require __DIR__ . '/auth.php';

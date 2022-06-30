@@ -21,12 +21,14 @@ class Invoice extends Model
 
     public function deliverables()
     {
-        return $this->belongsToMany(Deliverable::class);
+        return $this->belongsToMany(Deliverable::class)->withPivot('quantity');
     }
 
     public function getSubTotalAttribute()
     {
-        return $this->deliverables->sum("price");
+        return $this->deliverables->sum(function ($deliverable) {
+            return $deliverable->pivot->quantity * $deliverable->price;
+        });
     }
 
     public function getTotalAttribute()

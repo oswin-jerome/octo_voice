@@ -8,6 +8,7 @@ use App\Http\Resources\InvoiceListResource;
 use App\Models\Customer;
 use App\Models\Deliverable;
 use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -23,6 +24,15 @@ class InvoiceController extends Controller
         return Inertia::render('Invoices/Index', [
             "invoices" => InvoiceListResource::collection(Invoice::searchable()->filterable()->with(["deliverables", "customer"])->paginate(10))
         ]);
+    }
+
+    public function pdf(Invoice $invoice)
+    {
+        $pdf = PDF::loadView('pdf.invoice', [
+            "customer" => $invoice->customer,
+            "invoice" => $invoice
+        ]);
+        return $pdf->stream();
     }
 
     /**
@@ -64,7 +74,10 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        return Inertia::render('Invoices/pdf', [
+            "invoice" => $invoice,
+            "invoice_id" => $invoice->id,
+        ]);
     }
 
     /**
