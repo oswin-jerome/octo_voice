@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliverableController;
 use App\Http\Controllers\EstimateController;
+use App\Http\Controllers\InvoiceController;
 use App\Models\Customer;
 use App\Models\Estimate;
 use Illuminate\Foundation\Application;
@@ -35,7 +36,7 @@ Route::get('/dashboard', function () {
 Route::get('/test', function () {
     return view('mail.estimate', [
         "customer" => Customer::find(1),
-        "estimate" => Estimate::findOrFail(34)
+        "estimate" => Estimate::findOrFail(1)
     ]);
 })->middleware(['auth', 'verified'])->name('test');
 
@@ -44,6 +45,7 @@ Route::middleware("auth")->group(function () {
     Route::resource('deliverables', DeliverableController::class);
     Route::resource('estimates', EstimateController::class);
     Route::get('estimates/{estimate}/pdf', [EstimateController::class, "pdf"])->name("estimates.pdf");
+    Route::resource('invoices', InvoiceController::class);
 });
 
 require __DIR__ . '/auth.php';

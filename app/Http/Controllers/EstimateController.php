@@ -23,7 +23,7 @@ class EstimateController extends Controller
     public function index()
     {
         return Inertia::render('Estimates/Index', [
-            "estimates" => EstimateListResource::collection(Estimate::searchable()->filterable()->with(["deliverables", "customer"])->paginate(10))
+            "estimates" => EstimateListResource::collection(Estimate::searchable()->filterable("created_at", "desc")->with(["deliverables", "customer"])->paginate(10))
         ]);
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EstimateListResource extends JsonResource
+class InvoiceListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,7 +23,6 @@ class EstimateListResource extends JsonResource
             "total" => $this->total,
             "deliverables" => $this->deliverables,
             "customer" => $this->customer,
-            "created_at" => $this->created_at->format('d M Y'),
         ];
         // return parent::toArray($request);
     }
