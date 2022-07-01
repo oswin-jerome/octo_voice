@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import { defineProps } from 'vue'
 import BreezeButton from '@/Components/Button.vue';
 import DTable from '@/Components/Table/DTable.vue';
+import StatusBadge from '../../Components/StatusBadge.vue';
 
 const { invoices } = defineProps({
     invoices: Array
@@ -19,6 +20,11 @@ const columns = [
         name: "customer_name",
         label: "Customer",
         sort: true,
+    }, {
+        name: "status",
+        label: "Status",
+        sort: true,
+        filter: true,
     }, {
         name: "total",
         label: "Total",
@@ -59,6 +65,11 @@ const columns = [
                             <template v-slot:customer_name="{ row }">
                                 <div>
                                     {{ row.customer.name }}
+                                </div>
+                            </template>
+                            <template v-slot:status="{ row }">
+                                <div>
+                                    <status-badge :status="row.status" />
                                 </div>
                             </template>
                             <template v-slot:actions="{ row }">

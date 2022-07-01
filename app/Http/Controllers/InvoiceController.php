@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceListResource;
+use App\Mail\InvoiceMail;
 use App\Models\Customer;
 use App\Models\Deliverable;
 use App\Models\Invoice;
+use App\Models\Tax;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -35,6 +37,13 @@ class InvoiceController extends Controller
         return $pdf->stream();
     }
 
+    public function changeStatus(Invoice $invoice,  $status)
+    {
+        $invoice->status = $status;
+        $invoice->save();
+        return redirect()->route("invoices.show", $invoice);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +53,8 @@ class InvoiceController extends Controller
     {
         return Inertia::render('Invoices/Create', [
             'deliverables' => Deliverable::all(),
-            "customers" => Customer::all()
+            "customers" => Customer::all(),
+            "taxes" => Tax::all()
         ]);
     }
 
@@ -56,12 +66,17 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        $invoice = Invoice::create($request->except("deliverables"));
-        // dd($invoice);
+        $invoice = Invoice::create($request->except(["deliverables", "taxes"]));
         $invoice->deliverables()->sync($request->input('deliverables'));
-        // dd($invoice->customer);
+
+        // $tax = Tax::first();
+        // $invoice->taxes()->save($tax);
+
+        // TODO: try this below step
+        $invoice->taxes()->sync($request->input('taxes'));
+
         if ($invoice->customer->email) {
-            // Mail::to($estimate->customer->email)->send(new EstimateMail($estimate));
+            Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
         }
         return redirect()->route('invoices.index');
     }

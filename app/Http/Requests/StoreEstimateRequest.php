@@ -30,6 +30,7 @@ class StoreEstimateRequest extends FormRequest
             "discount" => "required|numeric",
             "customer_id" => "required|exists:customers,id",
             "deliverables" => "required|array",
+            "taxes" => "required|array",
         ];
     }
 }

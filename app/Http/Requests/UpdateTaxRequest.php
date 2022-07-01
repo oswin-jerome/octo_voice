@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class StoreInvoiceRequest extends FormRequest
+class UpdateTaxRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return false;
     }
 
     /**
@@ -25,11 +24,7 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            "discount_type" => "required|string|max:255",
-            "discount" => "required|numeric",
-            "customer_id" => "required|exists:customers,id",
-            "deliverables" => "required|array",
-            "taxes" => "required|array",
+            //
         ];
     }
 }

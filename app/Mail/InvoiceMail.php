@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EstimateMail extends Mailable implements ShouldQueue
+class InvoiceMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -17,10 +17,10 @@ class EstimateMail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public $estimate;
-    public function __construct($estimate)
+    public $invoice;
+    public function __construct($invoice)
     {
-        $this->estimate = $estimate;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -30,10 +30,9 @@ class EstimateMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // dd(storage_path("h.pdf"));
-        return $this->subject("Estimate")->view("mail.estimate", [
-            "estimate" => $this->estimate,
-            "customer" => Customer::find($this->estimate->customer_id)
+        return $this->subject("Invoice")->view("mail.invoice", [
+            "invoice" => $this->invoice,
+            "customer" => Customer::find($this->invoice->customer_id)
         ])->attach(storage_path("h.pdf"));
     }
 }

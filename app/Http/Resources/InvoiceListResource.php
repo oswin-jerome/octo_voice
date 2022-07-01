@@ -23,6 +23,9 @@ class InvoiceListResource extends JsonResource
             "total" => $this->total,
             "deliverables" => $this->deliverables,
             "customer" => $this->customer,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+            "status" => $this->status,
         ];
         // return parent::toArray($request);
     }

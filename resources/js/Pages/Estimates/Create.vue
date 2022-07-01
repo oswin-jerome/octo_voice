@@ -6,9 +6,10 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { computed, defineProps, ref } from 'vue'
 
-const { deliverables } = defineProps({
+const { deliverables, customers, taxes } = defineProps({
     deliverables: Array,
     customers: Array,
+    taxes: Array,
 })
 
 const form = useForm({
@@ -17,11 +18,20 @@ const form = useForm({
     deliverables: [],
     discount: 0,
     discount_type: 'fixed',
+    taxes: [],
 
 })
 const total = computed(
     () => {
         let t = form.deliverables.reduce((acc, cur) => acc + (parseFloat(cur.price) * parseFloat(cur.qty)), 0)
+        let taxPercentage = form.taxes.reduce((acc, cur) => acc + (parseFloat(cur.value)), 0)
+        // alert(taxPercentage)
+        // TODO: fix multi tax logic
+        if (form.taxes.length > 0 && form.taxes[0].type === 'percentage') {
+            // t = t + (t * taxPercentage)
+            t = t + (t * (taxPercentage / 100))
+        }
+
         if (form.discount_type == 'fixed') {
             return t - parseFloat(form.discount);
         }
@@ -48,6 +58,9 @@ const submit = () => {
         deliverables: data.deliverables.map((deliverable) => ({
             deliverable_id: deliverable.id,
             quantity: deliverable.qty,
+        })),
+        taxes: data.taxes.map((tax) => ({
+            tax_id: tax.id,
         })),
     })).post(route('estimates.store'), {
         onFinish: () => form.reset(),
@@ -193,6 +206,17 @@ const removeItem = (ind) => {
                             <BreezeLabel for="discount" value="Discount" />
                             <BreezeInput v-model="form.discount" id="discount" type="number" class="mt-1 block w-full"
                                 required autocomplete="current-discount" />
+                        </div>
+                        <div class="">
+                            <BreezeLabel for="taxes" value="taxes" />
+                            <select v-model="form.taxes" id="taxes" multiple
+                                class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                required autocomplete="current-unit">
+                                <option value=""></option>
+                                <option v-for="tax in taxes" :key="tax" :value="tax">{{ tax.name }} @{{ tax.value
+                                }}<span v-if="tax.type == 'percentage'">%</span>
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>

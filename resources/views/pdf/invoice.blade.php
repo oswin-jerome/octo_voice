@@ -96,9 +96,20 @@
             </tr>
             <tr>
                 <td class="px-4 py-3" colspan="3" style="text-align:right;">Discount</td>
-                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">Rs. {{ $invoice->discount_amount }}
+                <td style="background-color:rgb(249 250 251)" class="px-4 py-3"> - Rs.
+                    {{ $invoice->discount_amount }}
                 </td>
             </tr>
+            @foreach ($invoice->taxes as $item)
+                <tr>
+                    <td class="px-4 py-3" colspan="3" style="text-align:right;">{{ $item->name }}</td>
+                    <td style="background-color:rgb(249 250 251)" class="px-4 py-3">
+                        <p>+ Rs. {{ $invoice->sub_total * ($item->value / 100) }}
+                        <p class="text-xs">({{ $item->value }} %)</p>
+                        </p>
+                    </td>
+                </tr>
+            @endforeach
             <tr>
                 <td class="px-4 py-3" colspan="3" style="text-align:right;">Sub Total - Discount </td>
                 <td style="background-color:rgb(249 250 251)" class="px-4 py-3">Rs. {{ $invoice->total }}</td>

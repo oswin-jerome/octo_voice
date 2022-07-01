@@ -9,6 +9,7 @@ use App\Mail\EstimateMail;
 use App\Models\Customer;
 use App\Models\Deliverable;
 use App\Models\Estimate;
+use App\Models\Tax;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -31,7 +32,8 @@ class EstimateController extends Controller
     {
         $pdf = PDF::loadView('pdf.estimate', [
             "customer" => $estimate->customer,
-            "estimate" => $estimate
+            "estimate" => $estimate,
+
         ]);
         return $pdf->stream();
     }
@@ -45,7 +47,8 @@ class EstimateController extends Controller
     {
         return Inertia::render('Estimates/Create', [
             'deliverables' => Deliverable::all(),
-            "customers" => Customer::all()
+            "customers" => Customer::all(),
+            "taxes" => Tax::all()
         ]);
     }
 
@@ -57,9 +60,11 @@ class EstimateController extends Controller
      */
     public function store(StoreEstimateRequest $request)
     {
-        $estimate = Estimate::create($request->except("deliverables"));
+        $estimate = Estimate::create($request->except(["deliverables", 'taxes']));
         // dd($estimate);
         $estimate->deliverables()->sync($request->input('deliverables'));
+        $estimate->taxes()->sync($request->input('taxes'));
+
         // dd($estimate->customer);
         if ($estimate->customer->email) {
             Mail::to($estimate->customer->email)->send(new EstimateMail($estimate));

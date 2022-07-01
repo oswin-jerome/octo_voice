@@ -12,7 +12,7 @@ class Invoice extends Model
     use HasFactory, HasSearchable, HasFilterable;
 
     protected $guarded = [];
-    protected $searchable_fields = ['id'];
+    protected $searchable_fields = ['id', 'status'];
 
     public function customer()
     {
@@ -24,6 +24,14 @@ class Invoice extends Model
         return $this->belongsToMany(Deliverable::class)->withPivot('quantity');
     }
 
+    /**
+     * Get all of the tags for the post.
+     */
+    public function taxes()
+    {
+        return $this->morphToMany(Tax::class, 'taxable');
+    }
+
     public function getSubTotalAttribute()
     {
         return $this->deliverables->sum(function ($deliverable) {
@@ -33,11 +41,16 @@ class Invoice extends Model
 
     public function getTotalAttribute()
     {
+        $temp = $this->sub_total;
+        $this->taxes()->each(function ($tax) use (&$temp) {
+            $temp += $this->sub_total * ($tax->value / 100);
+        });
         if ($this->discount_type == "fixed") {
-            return $this->sub_total - $this->discount;
+            return $temp - $this->discount;
         }
-        return $this->sub_total - ($this->sub_total * $this->discount) / 100;
+        return $temp - ($temp * $this->discount) / 100;
     }
+
     public function getDiscountAmountAttribute()
     {
         if ($this->discount_type == "fixed") {

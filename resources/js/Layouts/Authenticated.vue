@@ -117,7 +117,26 @@ const showingNavigationDropdown = ref(false);
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('customers.index')"
+                            :active="route().current('customers.*')">
+                            Customers
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('deliverables.index')"
+                            :active="route().current('deliverables.*')">
+                            Deliverables
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('estimates.index')"
+                            :active="route().current('estimates.index')">
+                            Estimates
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('invoices.index')" :active="route().current('invoices')">
+                            Invoices
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('reports')">
+                            Reports
+                        </BreezeResponsiveNavLink>
                     </div>
+
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">

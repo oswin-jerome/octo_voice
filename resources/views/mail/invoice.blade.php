@@ -716,17 +716,17 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 </head>
 
 <body style="" class="p-10">
-    <h1 class="text-2xl font-bold text-center mb-6">Estimation</h1>
+    <h1 class="text-2xl font-bold text-center mb-6">Invoice</h1>
     <div class="mb-10">
         <div class="float-right">
-            <p class="text-sm"><b>Valid till:</b> {{ $estimate->valid_till }} </p>
+            <p class="text-sm"><b>Date: </b> {{ $invoice->created_at }} </p>
         </div>
         <div class="float-">
             <h2 class="font-bold">Customer Details</h2>
-            <p class="text-sm "><b>Name:</b> {{ $estimate->customer->name }} </p>
-            <p class="text-sm "><b>Phone:</b> {{ $estimate->customer->phone }} </p>
-            <p class="text-sm "><b>Email:</b> {{ $estimate->customer->email }} </p>
-            <p class="text-sm w-72"><b>Address:</b> <br />{{ $estimate->customer->address }} </p>
+            <p class="text-sm "><b>Name:</b> {{ $invoice->customer->name }} </p>
+            <p class="text-sm "><b>Phone:</b> {{ $invoice->customer->phone }} </p>
+            <p class="text-sm "><b>Email:</b> {{ $invoice->customer->email }} </p>
+            <p class="text-sm w-72"><b>Address:</b> <br />{{ $invoice->customer->address }} </p>
 
         </div>
     </div>
@@ -740,7 +740,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
             </tr>
         </thead>
         <tbody>
-            @foreach ($estimate->deliverables as $key => $item)
+            @foreach ($invoice->deliverables as $key => $item)
                 <tr @if ($key % 2 == 0) style="background-color:rgb(249 250 251)" @endif>
                     <td class="px-4 py-3">{{ $item->name }}</td>
                     <td class="px-4 py-3">{{ $item->price }}</td>
@@ -754,17 +754,17 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
         <tfoot style="background-color:rgb(209 213 219)">
             <tr>
                 <td class="px-4 py-3" colspan="3" style="text-align:right;">Sub Total </td>
-                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $estimate->sub_total }}</td>
+                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $invoice->sub_total }}</td>
             </tr>
             <tr>
                 <td class="px-4 py-3" colspan="3" style="text-align:right;">Discount</td>
-                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $estimate->discount_amount }}</td>
+                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $invoice->discount_amount }}</td>
             </tr>
-            @foreach ($estimate->taxes as $item)
+            @foreach ($invoice->taxes as $item)
                 <tr>
                     <td class="px-4 py-3" colspan="3" style="text-align:right;">{{ $item->name }}</td>
                     <td style="background-color:rgb(249 250 251)" class="px-4 py-3">
-                        <p>+ Rs. {{ $estimate->sub_total * ($item->value / 100) }}
+                        <p>+ Rs. {{ $invoice->sub_total * ($item->value / 100) }}
                         <p class="text-xs">({{ $item->value }} %)</p>
                         </p>
                     </td>
@@ -772,7 +772,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
             @endforeach
             <tr>
                 <td class="px-4 py-3" colspan="3" style="text-align:right;">Sub Total - Discount </td>
-                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $estimate->total }}</td>
+                <td style="background-color:rgb(249 250 251)" class="px-4 py-3">{{ $invoice->total }}</td>
             </tr>
         </tfoot>
     </table>
@@ -787,7 +787,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
             </tr>
         </thead>
         <tbody>
-            @foreach ($estimate->deliverables as $item)
+            @foreach ($invoice->deliverables as $item)
                 <tr>
                     <td>{{ $item->name }}</td>
                     <td>1</td>
@@ -799,15 +799,15 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
         <tfoot>
             <tr>
                 <td colspan="2" style="text-align:right;">Rs. Sub Total </td>
-                <td>{{ $estimate->sub_total }}</td>
+                <td>{{ $invoice->sub_total }}</td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:right;">Rs. Discount</td>
-                <td>{{ $estimate->discount_amount }}</td>
+                <td>{{ $invoice->discount_amount }}</td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:right;">Rs. Sub Total - Discount </td>
-                <td>{{ $estimate->total }}</td>
+                <td>{{ $invoice->total }}</td>
             </tr>
         </tfoot>
     </table> --}}

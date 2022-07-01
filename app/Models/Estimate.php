@@ -25,6 +25,11 @@ class Estimate extends Model
         return $this->belongsToMany(Deliverable::class)->withPivot('quantity');
     }
 
+    public function taxes()
+    {
+        return $this->morphToMany(Tax::class, 'taxable');
+    }
+
     public function getSubTotalAttribute()
     {
         return $this->deliverables->sum(function ($deliverable) {
@@ -34,10 +39,14 @@ class Estimate extends Model
 
     public function getTotalAttribute()
     {
+        $temp = $this->sub_total;
+        $this->taxes()->each(function ($tax) use (&$temp) {
+            $temp += $this->sub_total * ($tax->value / 100);
+        });
         if ($this->discount_type == "fixed") {
-            return $this->sub_total - $this->discount;
+            return $temp - $this->discount;
         }
-        return $this->sub_total - ($this->sub_total * $this->discount) / 100;
+        return $temp - ($temp * $this->discount) / 100;
     }
     public function getDiscountAmountAttribute()
     {
