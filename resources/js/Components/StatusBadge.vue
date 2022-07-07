@@ -19,8 +19,10 @@ const getClasses = (status) => {
             return "bg-yellow-400 text-white"
         case "draft":
             return "bg-amber-500/20 text-amber-500"
+        case "partially_paid":
+            return "bg-orange-500/20 text-orange-500"
         case "paid":
-            return "bg-green-500/2- text-green-500"
+            return "bg-green-500/20 text-green-500"
         case "cancelled":
             return "bg-red-500/20 text-red-500"
         default:

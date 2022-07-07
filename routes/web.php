@@ -4,8 +4,14 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliverableController;
 use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 use App\Models\Customer;
 use App\Models\Estimate;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\Tax;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,7 +37,25 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $todaysInvoiceCount = Invoice::whereDate('created_at', Carbon::today())->where("status", "<>", "cancelled")->count();
+    $todaysPayment = Payment::whereDate('created_at', Carbon::today())->sum("amount");
+    $taxInvoice = Tax::find(2)->invoices;
+    $invoices = Invoice::whereHas("taxes", function ($query) {
+        $query->where("tax_id", 2);
+    })->whereDate('created_at', Carbon::today())->where("status", "<>", "cancelled")->get();
+    $taxAmount = 0;
+    foreach ($invoices as $key => $value) {
+        $taxAmount += $value->getParticularTaxAmount(Tax::find(2));
+    }
+    return Inertia::render('Dashboard', [
+        "invoice_count" => $todaysInvoiceCount,
+        "invoice_sum" => Invoice::whereDate('created_at', Carbon::today())->where("status", "<>", "cancelled")->get()->sum("total"),
+        "todays_payment" => $todaysPayment,
+        "tax" => [
+            "Tax" => Tax::find(2),
+            "taxAmount" => $taxAmount
+        ]
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/test', function () {
     return view('mail.estimate', [
@@ -48,6 +72,15 @@ Route::middleware("auth")->group(function () {
     Route::resource('invoices', InvoiceController::class);
     Route::get('invoices/{invoice}/pdf', [InvoiceController::class, "pdf"])->name("invoices.pdf");
     Route::put('invoices/{invoice}/status/{status}', [InvoiceController::class, "changeStatus"])->name("invoices.changestatus");
+
+    Route::get('payments/{invoice}/create', [PaymentController::class, "create_with_invoice"])->name("payments.create_invoice");
+    Route::resource('payments', PaymentController::class);
+    Route::get('payments/{payment}/pdf', [PaymentController::class, "pdf"])->name("payments.pdf");
+
+    // Payments
+    Route::get('reports', [ReportController::class, "report"])->name("reports.index");
+    Route::get('reports/taxes', [ReportController::class, "taxes"])->name("reports.taxes");
+    Route::get('reports/taxes/pdf', [ReportController::class, "taxes_pdf"])->name("reports.taxes_pdf");
 });
 
 require __DIR__ . '/auth.php';

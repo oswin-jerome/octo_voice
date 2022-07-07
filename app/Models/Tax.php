@@ -12,4 +12,9 @@ class Tax extends Model
     {
         return $this->morphTo();
     }
+
+    public function invoices()
+    {
+        return $this->morphedByMany(Invoice::class, 'taxable');
+    }
 }

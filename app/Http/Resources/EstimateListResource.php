@@ -24,6 +24,7 @@ class EstimateListResource extends JsonResource
             "deliverables" => $this->deliverables,
             "customer" => $this->customer,
             "created_at" => $this->created_at->format('d M Y'),
+
         ];
         // return parent::toArray($request);
     }

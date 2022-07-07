@@ -12,6 +12,7 @@ class InvoiceListResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+    public static $wrap = '';
     public function toArray($request)
     {
         return [
@@ -23,9 +24,12 @@ class InvoiceListResource extends JsonResource
             "total" => $this->total,
             "deliverables" => $this->deliverables,
             "customer" => $this->customer,
-            "created_at" => $this->created_at,
+            "created_at" => $this->created_at->format('d M Y'),
             "updated_at" => $this->updated_at,
             "status" => $this->status,
+            "customer_id" => $this->customer_id,
+
+            "balance" => $this->balance,
         ];
         // return parent::toArray($request);
     }

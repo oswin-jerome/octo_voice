@@ -776,6 +776,18 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
             </tr>
         </tfoot>
     </table>
+    @if ($invoice->status == 'paid')
+        <div class="text-sm text-center mt-4">
+            <p class="text-green-500" style="color:rgb(34 197 94);"> Payment Status :
+                {{ $invoice->status }}</p>
+        </div>
+    @endif
+
+    @if ($invoice->status == 'cancelled')
+        <div class="text-sm text-center mt-4">
+            <p class="text-red-500" style="color:rgb(239 68 68 );">Invoice Cancelled</p>
+        </div>
+    @endif
 
     <p class="text-center text-sm text-gray-400 mt-10">Thanks for doing business with us.</p>
     {{-- <table id="customers">

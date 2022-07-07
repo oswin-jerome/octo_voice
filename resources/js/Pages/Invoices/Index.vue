@@ -16,7 +16,14 @@ const columns = [
         label: "ID",
         sort: true,
         filter: true
-    }, {
+    },
+    {
+        name: "created_at",
+        label: "Date",
+        sort: true,
+        filter: true
+    },
+    {
         name: "customer_name",
         label: "Customer",
         sort: true,
@@ -28,6 +35,10 @@ const columns = [
     }, {
         name: "total",
         label: "Total",
+    },
+    {
+        name: "balance",
+        label: "Balance",
     },
     {
         name: "actions",
@@ -73,10 +84,20 @@ const columns = [
                                 </div>
                             </template>
                             <template v-slot:actions="{ row }">
-                                <div>
-                                    <Link :href="route('invoices.show', row.id)">
-                                    View
-                                    </Link>
+                                <div class="flex gap-2 items-center">
+                                    <BreezeButton>
+                                        <Link :href="route('invoices.show', row.id)">
+                                        View
+                                        </Link>
+                                    </BreezeButton>
+                                    <BreezeButton :disabled="row.status === 'paid' || row.status === 'cancelled'"
+                                        :class="{ 'opacity-25': row.status === 'paid' || row.status === 'cancelled' }">
+                                        <Link v-if="row.status != 'paid' && row.status != 'cancelled'"
+                                            :href="route('payments.create_invoice', row.id)">
+                                        Record payment
+                                        </Link>
+                                        <span v-else>Record Payment</span>
+                                    </BreezeButton>
                                 </div>
                             </template>
 

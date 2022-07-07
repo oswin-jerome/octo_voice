@@ -24,7 +24,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return Inertia::render('Invoices/Index', [
-            "invoices" => InvoiceListResource::collection(Invoice::searchable()->filterable()->with(["deliverables", "customer"])->paginate(10))
+            "invoices" => InvoiceListResource::collection(Invoice::searchable()->filterable("created_at", "desc")->with(["deliverables", "customer"])->paginate(10))
         ]);
     }
 
@@ -32,15 +32,32 @@ class InvoiceController extends Controller
     {
         $pdf = PDF::loadView('pdf.invoice', [
             "customer" => $invoice->customer,
-            "invoice" => $invoice
+            "invoice" => $invoice,
         ]);
         return $pdf->stream();
     }
 
     public function changeStatus(Invoice $invoice,  $status)
     {
-        $invoice->status = $status;
-        $invoice->save();
+        switch ($status) {
+            case "sent":
+                $invoice->sendInvoice();
+                break;
+            case "cancelled":
+                $invoice->status = $status;
+                $invoice->save();
+                break;
+            case "mark_sent":
+                $invoice->status = "sent";
+                $invoice->save();
+                break;
+        }
+
+        if ($invoice->balance <= 0 && $invoice->status != 'cancelled') {
+            $invoice->status = "paid";
+            $invoice->save();
+        }
+
         return redirect()->route("invoices.show", $invoice);
     }
 
@@ -75,9 +92,9 @@ class InvoiceController extends Controller
         // TODO: try this below step
         $invoice->taxes()->sync($request->input('taxes'));
 
-        if ($invoice->customer->email) {
-            Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
-        }
+        // if ($invoice->customer->email) {
+        //     Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
+        // }
         return redirect()->route('invoices.index');
     }
 
@@ -92,6 +109,8 @@ class InvoiceController extends Controller
         return Inertia::render('Invoices/pdf', [
             "invoice" => $invoice,
             "invoice_id" => $invoice->id,
+            "payments" => $invoice->payments,
+
         ]);
     }
 
