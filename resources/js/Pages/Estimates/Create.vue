@@ -58,6 +58,7 @@ const submit = () => {
         deliverables: data.deliverables.map((deliverable) => ({
             deliverable_id: deliverable.id,
             quantity: deliverable.qty,
+            amount_per_unit: deliverable.price
         })),
         taxes: data.taxes.map((tax) => ({
             tax_id: tax.id,

@@ -6,10 +6,11 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { computed, defineProps, ref } from 'vue'
 
-const { deliverables, taxes, customers } = defineProps({
+const { deliverables, taxes, customers, errors } = defineProps({
     deliverables: Array,
     customers: Array,
     taxes: Array,
+    errors: Object,
 })
 
 const form = useForm({
@@ -56,13 +57,14 @@ const submit = () => {
         deliverables: data.deliverables.map((deliverable) => ({
             deliverable_id: deliverable.id,
             quantity: deliverable.qty,
+            amount_per_unit: deliverable.price
         })),
         taxes: data.taxes.map((tax) => ({
             tax_id: tax.id,
         })),
     })).post(route('invoices.store'), {
         preserveState: true,
-        onFinish: () => form.reset(),
+        onSuccess: () => form.reset(),
 
     });
 }
@@ -99,6 +101,7 @@ const removeItem = (ind) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid gap-4">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
                     <div class="p-6 bg-white border-b border-gray-200  grid md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <div class="">
                             <BreezeLabel for="Customer" value="Customer" />
@@ -110,6 +113,10 @@ const removeItem = (ind) => {
                                     {{ customer.name }}
                                 </option>
                             </select>
+                            <p v-if="errors['customer_id']"
+                                class="text-red-500 bg-red-500/10 rounded-lg px-2 py-1 mt-2 text-xs">
+                                {{ errors['customer_id'] }}
+                            </p>
                         </div>
                         <div class="col-span-2">
                             <BreezeLabel for="description" value="Description" />
@@ -150,6 +157,10 @@ const removeItem = (ind) => {
                             </div>
 
                         </form>
+                        <p v-if="errors['deliverables']"
+                            class="text-red-500 bg-red-500/10 rounded-lg px-2 py-1 mt-2 text-xs">
+                            {{ errors['deliverables'] }}
+                        </p>
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

@@ -30,6 +30,9 @@ class InvoiceListResource extends JsonResource
             "customer_id" => $this->customer_id,
 
             "balance" => $this->balance,
+
+            "expense" => $this->expenses()->sum("amount"),
+            "profit" => $this->profit,
         ];
         // return parent::toArray($request);
     }

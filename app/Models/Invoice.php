@@ -23,7 +23,7 @@ class Invoice extends Model
 
     public function deliverables()
     {
-        return $this->belongsToMany(Deliverable::class)->withPivot('quantity');
+        return $this->belongsToMany(Deliverable::class)->withPivot(['quantity', 'amount_per_unit']);
     }
 
     /**
@@ -53,8 +53,13 @@ class Invoice extends Model
     public function getSubTotalAttribute()
     {
         return $this->deliverables->sum(function ($deliverable) {
-            return $deliverable->pivot->quantity * $deliverable->price;
+            return $deliverable->pivot->quantity * $deliverable->pivot->amount_per_unit;
         });
+    }
+
+    public function getProfitAttribute()
+    {
+        return $this->sub_total - $this->expenses->sum('amount');
     }
 
     public function getTotalAttribute()

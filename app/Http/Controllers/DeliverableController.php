@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeliverableRequest;
 use App\Http\Requests\UpdateDeliverableRequest;
 use App\Models\Deliverable;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DeliverableController extends Controller
@@ -51,7 +52,9 @@ class DeliverableController extends Controller
      */
     public function show(Deliverable $deliverable)
     {
-        //
+        return Inertia::render('Deliverables/Show', [
+            'deliverables' => $deliverable
+        ]);
     }
 
     /**
@@ -62,7 +65,9 @@ class DeliverableController extends Controller
      */
     public function edit(Deliverable $deliverable)
     {
-        //
+        return Inertia::render('Deliverables/Edit', [
+            'deliverable' => $deliverable
+        ]);
     }
 
     /**
@@ -74,7 +79,8 @@ class DeliverableController extends Controller
      */
     public function update(UpdateDeliverableRequest $request, Deliverable $deliverable)
     {
-        //
+        $deliverable->update($request->validated());
+        return Redirect::back();
     }
 
     /**

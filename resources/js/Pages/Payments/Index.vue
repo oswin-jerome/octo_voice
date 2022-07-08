@@ -5,7 +5,7 @@ import { defineProps } from "vue"
 import BreezeButton from '@/Components/Button.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import DTable from '@/Components/Table/DTable.vue';
-
+import moment from 'moment';
 
 const { payments } = defineProps({
     payments: Array
@@ -30,19 +30,30 @@ const columns = [
         filter: true
 
     },
-    {
-        name: 'paymentable_type',
-        label: 'Towards',
-    },
+    // {
+    //     name: 'paymentable_type',
+    //     label: 'Towards',
+    // },
     {
         name: 'paymentable_id',
-        label: 'For',
+        label: 'Towards',
     },
     {
         name: "actions",
         label: "Actions",
     },
 ]
+
+
+const getHref = (row) => {
+    if (row.paymentable_type == `App\\Models\\Invoice`) {
+        return route('invoices.show', row.id)
+    }
+}
+
+const formatDate = (date) => {
+    return moment(date).format('DD MMM y hh:mm a')
+}
 
 </script>
 
@@ -79,6 +90,18 @@ const columns = [
                                     <Link :href="route('payments.show', row.id)">
                                     View
                                     </Link>
+                                </div>
+                            </template>
+                            <template v-slot:created_at="{ row }">
+                                <div>
+                                    {{ formatDate(row.created_at) }}
+                                </div>
+                            </template>
+                            <template v-slot:paymentable_id="{ row }">
+                                <div>
+                                    <BreezeNavLink :href="getHref(row)">
+                                        {{ row.paymentable_type.split('\\').pop() }} # {{ row.paymentable_id }}
+                                    </BreezeNavLink>
                                 </div>
                             </template>
                         </DTable>

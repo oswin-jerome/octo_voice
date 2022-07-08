@@ -41,6 +41,14 @@ const columns = [
         label: "Balance",
     },
     {
+        name: "expense",
+        label: "Expense",
+    },
+    {
+        name: "profit",
+        label: "Profit",
+    },
+    {
         name: "actions",
         label: "Actions",
     },

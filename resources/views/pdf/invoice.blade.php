@@ -81,9 +81,9 @@
             @foreach ($invoice->deliverables as $key => $item)
                 <tr @if ($key % 2 == 0) style="background-color:rgb(249 250 251)" @endif>
                     <td class="px-4 py-3">{{ $item->name }}</td>
-                    <td class="px-4 py-3">Rs. {{ $item->price }}</td>
+                    <td class="px-4 py-3">Rs. {{ $item->pivot->amount_per_unit }}</td>
                     <td class="px-4 py-3">{{ $item->pivot->quantity }}</td>
-                    <td class="px-4 py-3">Rs. {{ $item->price * $item->pivot->quantity }}</td>
+                    <td class="px-4 py-3">Rs. {{ $item->pivot->amount_per_unit * $item->pivot->quantity }}</td>
                     <td></td>
                 </tr>
             @endforeach

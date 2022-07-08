@@ -36,6 +36,11 @@ const columns = [
         filter: true
 
     },
+    {
+        name: 'actions',
+        label: 'Actions',
+
+    },
 ]
 
 </script>
@@ -68,6 +73,20 @@ const columns = [
                         <DTable :data="deliverables.data" :columns="columns" :meta="{
                             last_page: deliverables.last_page,
                         }">
+
+                            <template v-slot:description="{ row }">
+                                <div class="">
+                                    {{ row.description.slice(0, 30) }}...
+                                </div>
+                            </template>
+
+                            <template v-slot:actions="{ row }">
+                                <div class="">
+                                    <Link :href="route('deliverables.edit', row.id)">
+                                    Edit
+                                    </Link>
+                                </div>
+                            </template>
 
                         </DTable>
                     </div>

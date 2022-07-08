@@ -51,7 +51,7 @@ const showingNavigationDropdown = ref(false);
                                 </BreezeNavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex cursor-pointer">
-                                <BreezeNavLink :href="route('invoices.index')" :active="route().current('invoices')">
+                                <BreezeNavLink :href="route('invoices.index')" :active="route().current('invoices.*')">
                                     Invoices
                                 </BreezeNavLink>
                             </div>
@@ -139,7 +139,8 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('estimates.index')">
                             Estimates
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route('invoices.index')" :active="route().current('invoices')">
+                        <BreezeResponsiveNavLink :href="route('invoices.index')"
+                            :active="route().current('invoices.*')">
                             Invoices
                         </BreezeResponsiveNavLink>
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('reports')">

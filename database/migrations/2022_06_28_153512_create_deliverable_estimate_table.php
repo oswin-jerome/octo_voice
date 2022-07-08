@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('estimate_id');
             $table->unsignedBigInteger('deliverable_id');
             $table->integer('quantity')->default(1);
+            $table->double('amount_per_unit')->default(0);
             $table->foreign('estimate_id')->references('id')->on('estimates');
             $table->foreign('deliverable_id')->references('id')->on('deliverables');
             $table->timestamps();
