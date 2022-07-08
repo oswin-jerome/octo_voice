@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliverableController;
 use App\Http\Controllers\EstimateController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
@@ -76,6 +77,10 @@ Route::middleware("auth")->group(function () {
     Route::get('payments/{invoice}/create', [PaymentController::class, "create_with_invoice"])->name("payments.create_invoice");
     Route::resource('payments', PaymentController::class);
     Route::get('payments/{payment}/pdf', [PaymentController::class, "pdf"])->name("payments.pdf");
+
+
+    Route::resource('expenses', ExpenseController::class);
+
 
     // Payments
     Route::get('reports', [ReportController::class, "report"])->name("reports.index");

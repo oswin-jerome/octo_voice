@@ -39,6 +39,11 @@ class Invoice extends Model
         return $this->morphMany(Payment::class, 'paymentable');
     }
 
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
 
     public function getPaidTotalAttribute()
     {

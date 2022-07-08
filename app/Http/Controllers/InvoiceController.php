@@ -110,7 +110,7 @@ class InvoiceController extends Controller
             "invoice" => $invoice,
             "invoice_id" => $invoice->id,
             "payments" => $invoice->payments,
-
+            "expenses" => $invoice->expenses()->with("category")->get()
         ]);
     }
 

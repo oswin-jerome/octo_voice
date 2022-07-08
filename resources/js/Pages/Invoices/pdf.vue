@@ -5,10 +5,11 @@ import { defineProps } from "vue"
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ButtonVue from '@/Components/Button.vue';
 
-const { invoice_id, invoice, payments } = defineProps({
+const { invoice_id, invoice, payments, expenses } = defineProps({
     invoice_id: Number,
     invoice: Object,
     payments: Array,
+    expenses: Array
 })
 
 </script>
@@ -66,6 +67,32 @@ const { invoice_id, invoice, payments } = defineProps({
                                 <td class="px-6 py-3 ">{{ pay.amount }}</td>
                                 <!-- <td class="px-6 py-3 ">{{ pay.created_at }}</td> -->
                                 <td class="px-6 py-3 ">{{ pay.payment_method }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <ButtonVue>
+                        <Link :href="route('expenses.create', { invoice: invoice_id })" method="get" as="button">
+                        Add Expense
+                        </Link>
+                    </ButtonVue>
+                    <h3 class="font-bold mt-4">Expenses</h3>
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th class="px-6 py-3 ">#</th>
+                                <th class="px-6 py-3 ">Amount</th>
+                                <th class="px-6 py-3 ">Category</th>
+                                <th class="px-6 py-3 ">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="expense in expenses" :key="expense">
+                                <td class="px-6 py-3 ">{{ expense.id }}</td>
+                                <td class="px-6 py-3 ">{{ expense.amount }}</td>
+                                <td class="px-6 py-3 ">{{ expense.category.name }}</td>
+                                <!-- <td class="px-6 py-3 ">{{ expense.created_at }}</td> -->
+                                <td class="px-6 py-3 ">{{ expense.description }}</td>
                             </tr>
                         </tbody>
                     </table>

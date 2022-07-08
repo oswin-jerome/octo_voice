@@ -171,7 +171,7 @@ const removeItem = (ind) => {
                                 <tr v-for="(deliverable, index) in form.deliverables " :key="deliverable">
                                     <td class="px-4 py-3">{{ deliverable.name }}</td>
                                     <td class="px-4 py-3">{{ deliverable.price }}</td>
-                                    <td class="px-4 py-3">{{ deliverable.qty }}</td>
+                                    <td class="px-4 py-3">{{ deliverable.qty }} {{ deliverable.unit }}</td>
                                     <td class="px-4 py-3">{{ parseFloat(deliverable.total)
                                     }}</td>
                                     <td class="px-4 py-3">
