@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateDeliverableRequest;
 use App\Models\Deliverable;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Spatie\Activitylog\Contracts\Activity;
 
 class DeliverableController extends Controller
 {
@@ -79,7 +80,11 @@ class DeliverableController extends Controller
      */
     public function update(UpdateDeliverableRequest $request, Deliverable $deliverable)
     {
+        $oldPrice = $deliverable->price;
         $deliverable->update($request->validated());
+        if ($oldPrice != $deliverable->price) {
+            activity("deliverable")->causedBy(auth()->user())->performedOn($deliverable)->event('price_update')->log("price updated from " . $oldPrice . " to " . $deliverable->price);
+        }
         return Redirect::back();
     }
 

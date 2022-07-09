@@ -71,7 +71,10 @@ const columns = [
                                 </div>
                             </template>
                             <template v-slot:actions="{ row }">
-                                <div>
+                                <div class="flex gap-4">
+                                    <Link :href="route('estimates.edit', row.id)">
+                                    Edit
+                                    </Link>
                                     <Link :href="route('estimates.show', row.id)">
                                     View
                                     </Link>

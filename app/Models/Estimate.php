@@ -22,7 +22,7 @@ class Estimate extends Model
 
     public function deliverables()
     {
-        return $this->belongsToMany(Deliverable::class)->withPivot(['quantity', 'amount_per_unit']);
+        return $this->belongsToMany(Deliverable::class, 'deliverable_estimate', 'estimate_id', 'deliverable_id')->withPivot(['quantity', 'amount_per_unit']);
     }
 
     public function taxes()

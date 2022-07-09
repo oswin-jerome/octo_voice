@@ -12,6 +12,7 @@ use App\Models\Estimate;
 use App\Models\Tax;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class EstimateController extends Controller
@@ -94,7 +95,13 @@ class EstimateController extends Controller
      */
     public function edit(Estimate $estimate)
     {
-        //
+        // dd();
+        return Inertia::render('Estimates/Edit', [
+            "estimate" => Estimate::with(['deliverables', 'taxes'])->where('id', $estimate->id)->first(),
+            'deliverables' => Deliverable::all(),
+            "customers" => Customer::all(),
+            "taxes" => Tax::all()
+        ]);
     }
 
     /**
@@ -106,7 +113,15 @@ class EstimateController extends Controller
      */
     public function update(UpdateEstimateRequest $request, Estimate $estimate)
     {
-        //
+        $estimate->update($request->except(["deliverables", 'taxes']));
+        $estimate->deliverables()->sync($request->input('deliverables'));
+        $estimate->taxes()->sync($request->input('taxes'));
+
+        // dd($estimate->customer);
+        if ($estimate->customer->email) {
+            Mail::to($estimate->customer->email)->send(new EstimateMail($estimate));
+        }
+        return Redirect::back();
     }
 
     /**

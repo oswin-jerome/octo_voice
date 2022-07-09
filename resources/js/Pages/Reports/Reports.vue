@@ -25,9 +25,9 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
                             Taxes</Link>
                         </li>
                         <li class="">
-                            <Link href="#"
+                            <Link :href="route('reports.expenses')"
                                 class="inline-block p-4 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
-                            Dashboard</Link>
+                            Expense</Link>
                         </li>
                         <li class="">
                             <Link href="#"

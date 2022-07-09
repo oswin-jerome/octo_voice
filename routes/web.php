@@ -86,6 +86,9 @@ Route::middleware("auth")->group(function () {
     Route::get('reports', [ReportController::class, "report"])->name("reports.index");
     Route::get('reports/taxes', [ReportController::class, "taxes"])->name("reports.taxes");
     Route::get('reports/taxes/pdf', [ReportController::class, "taxes_pdf"])->name("reports.taxes_pdf");
+
+    Route::get('reports/expenses/pdf', [ReportController::class, "expenses_pdf"])->name("reports.expenses_pdf");
+    Route::get('reports/expenses', [ReportController::class, "expenses"])->name("reports.expenses");
 });
 
 require __DIR__ . '/auth.php';
