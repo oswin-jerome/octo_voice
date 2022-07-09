@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ExpenseCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class ExpenseFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "expense_category_id" => random_int(1, 3),
+            "amount" => random_int(1, 150),
+            "description" => $this->faker->text(),
+
         ];
     }
 }

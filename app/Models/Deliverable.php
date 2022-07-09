@@ -17,4 +17,9 @@ class Deliverable extends Model
         "price",
         "unit"
     ];
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class)->withPivot(['quantity', 'amount_per_unit']);
+    }
 }

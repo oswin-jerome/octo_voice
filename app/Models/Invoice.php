@@ -15,7 +15,7 @@ class Invoice extends Model
 
     protected $guarded = [];
     protected $searchable_fields = ['id', 'status'];
-
+    protected $appends = array('total');
     public function customer()
     {
         return $this->belongsTo(Customer::class);

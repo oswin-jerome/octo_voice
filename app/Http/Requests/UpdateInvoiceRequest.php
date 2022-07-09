@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateInvoiceRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check() && request()->invoice->status == 'draft';
     }
 
     /**
@@ -24,7 +25,11 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "discount_type" => "required|string|max:255",
+            "discount" => "required|numeric",
+            "customer_id" => "required|exists:customers,id",
+            "deliverables" => "required|array",
+            "taxes" => "sometimes|nullable|array",
         ];
     }
 }

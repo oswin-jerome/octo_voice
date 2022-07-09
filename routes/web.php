@@ -50,11 +50,11 @@ Route::get('/dashboard', function () {
     }
     return Inertia::render('Dashboard', [
         "invoice_count" => $todaysInvoiceCount,
-        "invoice_sum" => Invoice::whereDate('created_at', Carbon::today())->where("status", "<>", "cancelled")->get()->sum("total"),
-        "todays_payment" => $todaysPayment,
+        "invoice_sum" => number_format(Invoice::whereDate('created_at', Carbon::today())->where("status", "<>", "cancelled")->get()->sum("total"), 2),
+        "todays_payment" => number_format($todaysPayment, 2),
         "tax" => [
             "Tax" => Tax::find(2),
-            "taxAmount" => $taxAmount
+            "taxAmount" => number_format($taxAmount, 2)
         ]
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -89,6 +89,9 @@ Route::middleware("auth")->group(function () {
 
     Route::get('reports/expenses/pdf', [ReportController::class, "expenses_pdf"])->name("reports.expenses_pdf");
     Route::get('reports/expenses', [ReportController::class, "expenses"])->name("reports.expenses");
+
+    Route::get('reports/sales/pdf', [ReportController::class, "sales_pdf"])->name("reports.sales_pdf");
+    Route::get('reports/sales', [ReportController::class, "sales"])->name("reports.sales");
 });
 
 require __DIR__ . '/auth.php';

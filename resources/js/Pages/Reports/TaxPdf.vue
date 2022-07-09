@@ -17,7 +17,7 @@
                         </select>
                     </div>
                     <FromTo v-model:dates="dates" />
-                    <a :href="route('reports.expenses_pdf', { type: reportType, ...dates, download: 'true' })">
+                    <a :href="route('reports.taxes_pdf', { type: reportType, ...dates, download: 'true' })">
                         <BreezeButton class="mt-4">
                             Download PDF
                         </BreezeButton>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-span-2  hidden md:block">
                     <iframe class="w-full aspect-square"
-                        :src="route('reports.expenses_pdf', { type: reportType, ...dates })" frameborder="0"></iframe>
+                        :src="route('reports.taxes_pdf', { type: reportType, ...dates })" frameborder="0"></iframe>
                 </div>
             </div>
         </Reports>

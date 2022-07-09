@@ -93,6 +93,14 @@ const columns = [
                             </template>
                             <template v-slot:actions="{ row }">
                                 <div class="flex gap-2 items-center">
+                                    <BreezeButton :disabled="row.status != 'draft'"
+                                        :class="{ 'opacity-25': row.status != 'draft' }">
+                                        <Link v-if="row.status === 'draft'" :href="route('invoices.edit', row.id)">
+                                        Edit
+                                        </Link>
+                                        <span v-else>Edit</span>
+
+                                    </BreezeButton>
                                     <BreezeButton>
                                         <Link :href="route('invoices.show', row.id)">
                                         View

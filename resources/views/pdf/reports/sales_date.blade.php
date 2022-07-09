@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Expense Report</title>
+    <title>Sales Report</title>
     <style>
         * {
             font-family: Arial, Helvetica, sans-serif;
@@ -201,45 +201,42 @@
     @php
         $total = 0;
     @endphp
-    <h1 class="text-2xl font-bold text-center mb-6">Expense Report</h1>
+    <h1 class="text-2xl font-bold text-center mb-6">Sales Report</h1>
     <p class="text-center pb-10">{{ $from . ' - ' . $to }}</p>
-
-    @foreach ($expenses as $key => $item)
+    {{-- {{ dd($invoices) }} --}}
+    @foreach ($invoices as $key => $item)
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            {{-- <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th width="400px">{{ $key }}</th>
                     <th></th>
                 </tr>
-            </thead>
+            </thead> --}}
             <tbody>
-                @foreach ($item->groupBy(function ($d) {
-        return $d->category->name;
-    })
-    as $key => $val)
-                    <tr style="color:#656565">
-                        <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">{{ $key }}</td>
-                        <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">
-                            Rs. {{ $val->sum('amount') }}</td>
-                        @php
-                            $total += $val->sum('amount');
-                        @endphp
-                    </tr>
-                @endforeach
+                {{-- @foreach ($item as $val) --}}
+                <tr style="color:#656565">
+                    <td width="400px" class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">{{ $key }}</td>
+                    <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">
+                        Rs. {{ $item->sum('total') }}</td>
+                    @php
+                        $total += $item->sum('total');
+                    @endphp
+                </tr>
+                {{-- @endforeach --}}
             </tbody>
-            <tfoot>
+            {{-- <tfoot>
                 <tr>
                     <th class="px-4 py-3"></th>
-                    <th class="px-4 py-3">Rs. {{ $item->sum('amount') }}</th>
+                    <th class="px-4 py-3">Rs. {{ $item->sum('total') }}</th>
                 </tr>
-            </tfoot>
+            </tfoot> --}}
         </table>
         <br>
         <br>
     @endforeach
 
     <div style="background: rgba(0, 68, 255, 0.288);height: 50px;padding:10px">
-        <div class="px-4 py-3 text-xl" style="float: left;"> Total Expense</div>
+        <div class="px-4 py-3 text-xl" style="float: left;"> Total Sales</div>
         <div class="px-4 py-3 text-xl font-bold" style="float: right;top: 0;left: 0;">
             Rs. {{ $total }}</div>
     </div>

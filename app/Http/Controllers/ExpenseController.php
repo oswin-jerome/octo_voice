@@ -19,7 +19,7 @@ class ExpenseController extends Controller
     public function index()
     {
         return Inertia::render('Expenses/Index', [
-            'expenses' => ExpenseListResource::collection(Expense::searchable()->filterable("created_at", "desc")->with("category")->paginate(10)),
+            'expenses' => ExpenseListResource::collection(Expense::searchable()->filterable("id", "desc")->with("category")->paginate(10)),
         ]);
     }
 

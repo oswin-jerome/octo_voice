@@ -203,8 +203,7 @@
     @endphp
     <h1 class="text-2xl font-bold text-center mb-6">Expense Report</h1>
     <p class="text-center pb-10">{{ $from . ' - ' . $to }}</p>
-
-    @foreach ($expenses as $key => $item)
+    @foreach ($invoices as $key => $items)
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -213,25 +212,36 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($item->groupBy(function ($d) {
-        return $d->category->name;
-    })
-    as $key => $val)
+                @php
+                    $day_total = 0;
+                @endphp
+                @foreach ($taxes as $key => $tax)
                     <tr style="color:#656565">
-                        <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">{{ $key }}</td>
+                        <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">{{ $tax->name }}</td>
                         <td class="px-4 py-3" style="border-bottom: 1px solid #DEDEDE;">
-                            Rs. {{ $val->sum('amount') }}</td>
-                        @php
-                            $total += $val->sum('amount');
-                        @endphp
+                            @php
+                                $t_amount = 0;
+                                $items->each(function ($item) use ($tax, &$t_amount, &$day_total) {
+                                    $t = $item->taxes->where('id', $tax->id)->first();
+                                    if ($t) {
+                                        $t_amount += $item->sub_total * ($tax->value / 100);
+                                        $day_total += $t_amount;
+                                    }
+                                });
+                            @endphp
+                            Rs. {{ $t_amount }} </td>
+
                     </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     <th class="px-4 py-3"></th>
-                    <th class="px-4 py-3">Rs. {{ $item->sum('amount') }}</th>
+                    <th class="px-4 py-3">Rs.{{ $day_total }} </th>
                 </tr>
+                @php
+                    $total += $day_total;
+                @endphp
             </tfoot>
         </table>
         <br>
@@ -239,7 +249,7 @@
     @endforeach
 
     <div style="background: rgba(0, 68, 255, 0.288);height: 50px;padding:10px">
-        <div class="px-4 py-3 text-xl" style="float: left;"> Total Expense</div>
+        <div class="px-4 py-3 text-xl" style="float: left;"> Total Tax</div>
         <div class="px-4 py-3 text-xl font-bold" style="float: right;top: 0;left: 0;">
             Rs. {{ $total }}</div>
     </div>

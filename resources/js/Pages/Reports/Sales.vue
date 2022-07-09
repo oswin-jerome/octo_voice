@@ -9,15 +9,16 @@
                         <select id="Customer" v-model="reportType"
                             class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                             required autocomplete="current-unit">
-                            <option value="category">Category</option>
+                            <option value="customer">Customer</option>
                             <option value="date">Date</option>
                             <option value="month">Month</option>
                             <option value="year">Year</option>
+                            <option value="deliverable">Deliverable</option>
 
                         </select>
                     </div>
                     <FromTo v-model:dates="dates" />
-                    <a :href="route('reports.expenses_pdf', { type: reportType, ...dates, download: 'true' })">
+                    <a :href="route('reports.sales_pdf', { type: reportType, ...dates, download: 'true' })">
                         <BreezeButton class="mt-4">
                             Download PDF
                         </BreezeButton>
@@ -25,7 +26,7 @@
                 </div>
                 <div class="col-span-2  hidden md:block">
                     <iframe class="w-full aspect-square"
-                        :src="route('reports.expenses_pdf', { type: reportType, ...dates })" frameborder="0"></iframe>
+                        :src="route('reports.sales_pdf', { type: reportType, ...dates })" frameborder="0"></iframe>
                 </div>
             </div>
         </Reports>
@@ -40,7 +41,7 @@ import BreezeLabel from '@/Components/Label.vue';
 import { ref } from '@vue/reactivity';
 import FromTo from './FromTo.vue';
 
-const reportType = ref('category')
+const reportType = ref('customer')
 const dates = ref({})
 </script>
 

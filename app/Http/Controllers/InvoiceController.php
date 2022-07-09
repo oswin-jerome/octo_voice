@@ -122,7 +122,12 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        return Inertia::render('Invoices/Edit', [
+            'deliverables' => Deliverable::all(),
+            "customers" => Customer::all(),
+            "taxes" => Tax::all(),
+            "invoice" => Invoice::with(['deliverables', 'taxes'])->where('id', $invoice->id)->first()
+        ]);
     }
 
     /**
@@ -134,7 +139,16 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        //
+        $invoice->update($request->except(["deliverables", "taxes"]));
+        $invoice->deliverables()->sync($request->input('deliverables'));
+
+        // TODO: try this below step
+        $invoice->taxes()->sync($request->input('taxes'));
+
+        // if ($invoice->customer->email) {
+        //     Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
+        // }
+        return redirect()->route('invoices.index');
     }
 
     /**
