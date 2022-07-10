@@ -80,7 +80,9 @@ const columns = [
                             <template v-slot:actions="{ row }">
                                 <div>
                                     <Link :href="route('expenses.show', row.id)">
-                                    View
+                                    <!-- <BreezeButton>
+                                        View
+                                    </BreezeButton> -->
                                     </Link>
                                 </div>
                             </template>

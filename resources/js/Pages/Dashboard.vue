@@ -17,7 +17,7 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
 
     <BreezeAuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-white">
                 Dashboard
             </h2>
         </template>
@@ -31,7 +31,7 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
                         </p>
                         <div class="flex mt-3 gap-4 w-full">
                             <div
-                                class="bg-white shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
+                                class="bg-white dark:bg-dark-fg shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
                                 <p></p>
                                 <p class="font-bold text-5xl text-gray-600">
                                     Rs.{{ invoice_sum }}
@@ -41,7 +41,7 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
                                 </p>
                             </div>
                             <div
-                                class="bg-white shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
+                                class="bg-white dark:bg-dark-fg shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
                                 <p></p>
                                 <p class="font-bold text-5xl text-gray-600">
                                     {{ invoice_count }}
@@ -51,7 +51,7 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
                                 </p>
                             </div>
                             <div
-                                class="bg-white shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
+                                class="bg-white dark:bg-dark-fg shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
                                 <p></p>
                                 <p class="font-bold text-5xl text-gray-600">
                                     Rs.{{ todays_payment }}
@@ -61,7 +61,7 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
                                 </p>
                             </div>
                             <div
-                                class="bg-white shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
+                                class="bg-white dark:bg-dark-fg shadow-lg p-4 rounded min-w-32 text-center flex flex-col justify-between">
                                 <p></p>
                                 <p class="font-bold text-5xl text-gray-600">
                                     Rs.{{ tax.taxAmount }}
@@ -75,8 +75,8 @@ const { invoice_count, todays_payment, tax, invoice_sum } = defineProps({
                 </div>
             </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white dark:bg-dark-fg overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white dark:bg-dark-fg">
                         You're logged in! now
                     </div>
                 </div>

@@ -88,7 +88,9 @@ const formatDate = (date) => {
                             <template v-slot:actions="{ row }">
                                 <div>
                                     <Link :href="route('payments.show', row.id)">
-                                    View
+                                    <BreezeButton>
+                                        View
+                                    </BreezeButton>
                                     </Link>
                                 </div>
                             </template>
