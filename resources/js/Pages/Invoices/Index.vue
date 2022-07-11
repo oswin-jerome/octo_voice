@@ -58,7 +58,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Invoices" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

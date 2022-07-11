@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\InvoiceMail;
+use App\Traits\HasCalculations;
 use App\Traits\HasFilterable;
 use App\Traits\HasSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,11 +12,11 @@ use Illuminate\Support\Facades\Mail;
 
 class Invoice extends Model
 {
-    use HasFactory, HasSearchable, HasFilterable;
+    use HasFactory, HasSearchable, HasFilterable, HasCalculations;
 
     protected $guarded = [];
     protected $searchable_fields = ['id', 'status'];
-    protected $appends = array('total');
+    protected $appends = array('total', 'sub_total_with_discount');
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -50,57 +51,68 @@ class Invoice extends Model
         return $this->payments()->sum('amount');
     }
 
-    public function getSubTotalAttribute()
-    {
-        return $this->deliverables->sum(function ($deliverable) {
-            return $deliverable->pivot->quantity * $deliverable->pivot->amount_per_unit;
-        });
-    }
+    // public function getSubTotalAttribute()
+    // {
+    //     return $this->deliverables->sum(function ($deliverable) {
+    //         return $deliverable->pivot->quantity * $deliverable->pivot->amount_per_unit;
+    //     });
+    // }
 
-    public function getProfitAttribute()
-    {
-        return $this->sub_total - $this->expenses->sum('amount');
-    }
+    // public function getProfitAttribute()
+    // {
+    //     return $this->sub_total  - $this->expenses->sum('amount') - $this->discount_amount;
+    // }
 
-    public function getTotalAttribute()
-    {
-        $temp = $this->sub_total;
-        $this->taxes()->each(function ($tax) use (&$temp) {
-            $temp += $this->sub_total * ($tax->value / 100);
-        });
-        if ($this->discount_type == "fixed") {
-            return $temp - $this->discount;
-        }
-        return $temp - ($temp * $this->discount) / 100;
-    }
+    // public function getTotalAttribute()
+    // {
+    //     $temp = $this->sub_total;
+    //     $discount = $this->discount_amount;
+    //     $taxAmount = $this->tax_amount;
+    //     $temp = $temp + $taxAmount - $discount;
+    //     return $temp;
+    // }
 
-    public function getBalanceAttribute()
-    {
-        return $this->total - $this->paid_total;
-    }
+    // public function getTaxAmountAttribute()
+    // {
+    //     $temp = 0;
+    //     $this->taxes()->each(function ($tax) use (&$temp) {
+    //         $temp += ($this->sub_total - $this->discount_amount) * ($tax->value / 100);
+    //     });
+    //     return $temp;
+    // }
 
-    public function getDiscountAmountAttribute()
-    {
-        if ($this->discount_type == "fixed") {
-            return $this->discount;
-        }
-        return ($this->discount * $this->sub_total) / 100;
-    }
+    // public function getBalanceAttribute()
+    // {
+    //     return $this->total - $this->paid_total;
+    // }
 
-    public function getParticularTaxAmount($taxes)
-    {
-        $amount = 0;
-        $taxes->each(function ($tax) use (&$amount) {
-            $ta =  $this->taxes->find($tax);
-            if ($ta) {
-                $perc = $tax->value;
-                $amount += ($this->sub_total) * $perc / 100;
-            }
-        });
+    // public function getDiscountAmountAttribute()
+    // {
+    //     if ($this->discount_type == "fixed") {
+    //         return $this->discount;
+    //     }
+    //     return ($this->discount * $this->sub_total) / 100;
+    // }
+
+    // public function getSubTotalWithDiscountAttribute()
+    // {
+    //     return $this->sub_total - $this->discount_amount;
+    // }
+
+    // public function getParticularTaxAmount($taxes)
+    // {
+    //     $amount = 0;
+    //     $taxes->each(function ($tax) use (&$amount) {
+    //         $ta =  $this->taxes->find($tax);
+    //         if ($ta) {
+    //             $perc = $tax->value;
+    //             $amount += ($this->sub_total - $this->discount_amount) * $perc / 100;
+    //         }
+    //     });
 
 
-        return $amount;
-    }
+    //     return $amount;
+    // }
 
 
     public function scopeOrdered($query)

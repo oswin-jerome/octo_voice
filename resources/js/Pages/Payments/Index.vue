@@ -59,7 +59,7 @@ const formatDate = (date) => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Payments" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

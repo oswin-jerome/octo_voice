@@ -14,6 +14,8 @@ use App\Models\Payment;
 use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +31,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    return Redirect::route('dashboard');
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -92,6 +95,9 @@ Route::middleware("auth")->group(function () {
 
     Route::get('reports/sales/pdf', [ReportController::class, "sales_pdf"])->name("reports.sales_pdf");
     Route::get('reports/sales', [ReportController::class, "sales"])->name("reports.sales");
+
+    Route::get('reports/profit/pdf', [ReportController::class, "profit_pdf"])->name("reports.profit_pdf");
+    Route::get('reports/profit', [ReportController::class, "profit"])->name("reports.profit");
 });
 
 require __DIR__ . '/auth.php';

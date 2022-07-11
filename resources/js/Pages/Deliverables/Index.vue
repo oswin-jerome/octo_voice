@@ -47,7 +47,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Deliverables" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

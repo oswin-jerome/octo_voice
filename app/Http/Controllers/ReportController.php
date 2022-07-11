@@ -239,4 +239,20 @@ class ReportController extends Controller
         ]);
         return $request->download == 'true' ? $pdf->download("expense_report.pdf") : $pdf->stream('taxes.pdf');
     }
+
+    public function profit()
+    {
+        return Inertia::render("Reports/Profit");
+    }
+    public function profit_pdf(Request $request)
+    {
+        // dd(Invoice::find(1)->sub_total_with_discount);
+        $pdf = PDF::loadView('pdf.reports.profit', [
+            "income" => Invoice::whereDate("invoices.created_at", ">=", $request->from)->whereDate('created_at', "<=", $request->to)->get()->sum('sub_total_with_discount'),
+            "expense" => Expense::whereDate("expenses.created_at", ">=", $request->from)->whereDate('expenses.created_at', "<=", $request->to)->sum("amount"),
+            "from" => Carbon::parse($request->from)->format('M d Y') ?? "",
+            "to" => Carbon::parse($request->to)->format('M d Y') ?? ""
+        ]);
+        return $request->download == 'true' ? $pdf->download("expense_report.pdf") : $pdf->stream('taxes.pdf');
+    }
 }

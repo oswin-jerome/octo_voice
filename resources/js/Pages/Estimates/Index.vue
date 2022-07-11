@@ -42,7 +42,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Estimates" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

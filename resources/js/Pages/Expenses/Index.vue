@@ -50,7 +50,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Expenses" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

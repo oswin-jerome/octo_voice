@@ -21,35 +21,59 @@ const form = useForm({
     taxes: [],
 
 })
+
+const getItemTotal = () => {
+    let t = form.deliverables.reduce((acc, cur) => acc + (parseFloat(cur.price) * parseFloat(cur.qty)), 0)
+    return t;
+}
+
 const total = computed(
     () => {
-        let t = form.deliverables.reduce((acc, cur) => acc + (parseFloat(cur.price) * parseFloat(cur.qty)), 0)
-        let taxPercentage = form.taxes.reduce((acc, cur) => acc + (parseFloat(cur.value)), 0)
-        // alert(taxPercentage)
-        if (form.taxes.length > 0) {
-            // t = t + (t * taxPercentage)
-            t = t + (t * (taxPercentage / 100))
-        }
+        let t = getItemTotal()
+        // let taxPercentage = form.taxes.reduce((acc, cur) => acc + (parseFloat(cur.value)), 0)
+        // // alert(taxPercentage)
+        // // TODO: fix multi tax logic
+        // if (form.taxes.length > 0 && form.taxes[0].type === 'percentage') {
+        //     // t = t + (t * taxPercentage)
+        //     t = t + (t * (taxPercentage / 100))
+        // }
 
-        if (form.discount_type == 'fixed') {
-            return t - parseFloat(form.discount);
-        }
-        return t - (t * parseFloat(form.discount) / 100);
+        var taxAmount = getTaxesValue();
+
+        var discountAmount = getDiscountValue();
+        return parseFloat(t + taxAmount - discountAmount).toFixed(2);
     }
 )
 
+const getTaxesValue = () => {
+    let t = getItemTotal()
+    var discountAmount = getDiscountValue();
+    t = t - discountAmount;
+    let taxPercentage = form.taxes.reduce((acc, cur) => acc + (parseFloat(cur.value)), 0)
+    // TODO: fix multi tax logic
+    if (form.taxes.length > 0 && form.taxes[0].type === 'percentage') {
+        // t = t + (t * taxPercentage)
+        return (t * (taxPercentage / 100))
+    }
+    return 0;
+}
+
+const getDiscountValue = () => {
+    let t = getItemTotal()
+    if (form.discount_type == 'fixed') {
+        return parseFloat(form.discount);
+    }
+    return (t * parseFloat(form.discount) / 100);
+}
+
 const discountedValue = computed(
     () => {
-        let t = form.deliverables.reduce((acc, cur) => acc + (parseFloat(cur.price) * parseFloat(cur.qty)), 0)
-        if (form.discount_type == 'fixed') {
-            return parseFloat(form.discount);
-        }
-        return (t * parseFloat(form.discount) / 100);
+        return getDiscountValue();
     }
 )
 
 const subtotal = computed(
-    () => form.deliverables.reduce((acc, cur) => acc + (parseFloat(cur.price) * parseFloat(cur.qty)), 0)
+    () => getItemTotal()
 )
 const submit = () => {
     form.transform((data) => ({
@@ -89,7 +113,7 @@ const removeItem = (ind) => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Create Invoice" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -194,11 +218,14 @@ const removeItem = (ind) => {
 
                         <p>Sub Total: {{ subtotal }}</p>
                         <p>Discount: {{ discountedValue }}</p>
-                        <p v-for="tax in form.taxes" :key="tax">{{ tax.name }}: {{ subtotal * (tax.value / 100) }} <span
-                                class="text-xs">{{
-                                        tax.value
-                                }}%</span></p>
-                        <p>Total: {{ total }}</p>
+                        <p>Sub Total - Discount: {{ subtotal - discountedValue }}</p>
+                        <p v-for="tax in form.taxes" :key="tax">{{ tax.name }}: {{ (subtotal - discountedValue) *
+                                (tax.value / 100)
+                        }} <span class="text-xs">{{
+        tax.value
+}}%<span class="text-xs"> of {{ subtotal - discountedValue }}</span></span>
+                        </p>
+                        <p>Total (<span class="text-xs">sub total - tax - discount</span>): {{ total }}</p>
 
                     </div>
                     <div class="p-6 bg-white border-b border-gray-200  ">

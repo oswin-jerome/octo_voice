@@ -26,7 +26,7 @@ const submit = () => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Create Deliverable" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

@@ -104,7 +104,7 @@
                 <tr>
                     <td class="px-4 py-3" colspan="3" style="text-align:right;">{{ $item->name }}</td>
                     <td style="background-color:rgb(249 250 251)" class="px-4 py-3">
-                        <p>+ Rs. {{ $invoice->sub_total * ($item->value / 100) }}
+                        <p>+ Rs. {{ $invoice->getParticularTaxAmount($item) }}
                         <p class="text-xs">({{ $item->value }} %)</p>
                         </p>
                     </td>
