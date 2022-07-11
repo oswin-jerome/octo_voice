@@ -42,7 +42,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Estimates" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -73,10 +73,16 @@ const columns = [
                             <template v-slot:actions="{ row }">
                                 <div class="flex gap-4">
                                     <Link :href="route('estimates.edit', row.id)">
-                                    Edit
+                                    <BreezeButton>
+                                        Edit
+                                    </BreezeButton>
+
                                     </Link>
                                     <Link :href="route('estimates.show', row.id)">
-                                    View
+                                    <BreezeButton>
+                                        View
+                                    </BreezeButton>
+
                                     </Link>
                                 </div>
                             </template>

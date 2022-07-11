@@ -5,7 +5,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Reports" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -39,6 +39,13 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
                             }"
                                 class="inline-block p-4 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
                             Sales</Link>
+                        </li>
+                        <li class="">
+                            <Link :href="route('reports.profit')" :class="{
+                                'text-blue-600 bg-gray-100  dark:bg-gray-800 dark:text-blue-500': (route().current('reports.profit'))
+                            }"
+                                class="inline-block p-4 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                            Profit</Link>
                         </li>
                         <li class="">
                             <Link href="#" :class="{

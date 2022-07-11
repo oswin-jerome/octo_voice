@@ -43,36 +43,38 @@
                 class="mt-1 inline w-full text-sm flex-grow" required />
         </div>
     </div>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th v-for="col in columns" :key="col" scope="col" class="px-6 py-3 "
-                    :class="col.sort ? ' cursor-pointer ' : ''" @click="handleSort(col)">
-                    <div class="flex items-center gap-2">
-                        <slot :name="'col_' + col.name">
-                            {{ col.label }}
-                        </slot>
-                        <svg v-if="col.sort && sort_by == col.name" xmlns="http://www.w3.org/2000/svg"
-                            :class="!col.name == sort_by ? '' : (sort_order ? 'transform rotate-180' : '')"
-                            class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="overflow-scroll">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th v-for="col in columns" :key="col" scope="col" class="px-6 py-3 "
+                        :class="col.sort ? ' cursor-pointer ' : ''" @click="handleSort(col)">
+                        <div class="flex items-center gap-2">
+                            <slot :name="'col_' + col.name">
+                                {{ col.label }}
+                            </slot>
+                            <svg v-if="col.sort && sort_by == col.name" xmlns="http://www.w3.org/2000/svg"
+                                :class="!col.name == sort_by ? '' : (sort_order ? 'transform rotate-180' : '')"
+                                class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
 
-            <tr v-for="(row) in data" :key="row" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr v-for="(row) in data" :key="row" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                <td v-for="(col) in columns" :key="col" scope="row"
-                    class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                    <slot :row="row" :col="col" :name="col.name">{{ row[col.name] }}</slot>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td v-for="(col) in columns" :key="col" scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        <slot :row="row" :col="col" :name="col.name">{{ row[col.name] }}</slot>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="p-3 text-center text-sm text-gray-500 flex flex-col items-center justify-center" v-if="data.length < 1">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-28 w-28 text-gray-200" fill="none" viewBox="0 0 24 24"
             stroke="currentColor" stroke-width="1">

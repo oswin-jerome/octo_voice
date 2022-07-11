@@ -21,7 +21,7 @@ const submit = () => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Create customer" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -41,14 +41,14 @@ const submit = () => {
                                     required autocomplete="current-name" />
                             </div>
                             <div class="mt-4">
-                                <BreezeLabel for="email" value="email" />
+                                <BreezeLabel for="email" value="Email" />
                                 <BreezeInput v-model="form.email" id="email" type="email" class="mt-1 block w-full"
                                     required autocomplete="current-email" />
                             </div>
 
-                            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }"
+                            <BreezeButton class="mt-4" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing">
-                                Log in
+                                Create
                             </BreezeButton>
                         </form>
                     </div>

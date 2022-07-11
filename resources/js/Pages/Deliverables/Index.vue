@@ -47,7 +47,7 @@ const columns = [
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Deliverables" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -83,7 +83,9 @@ const columns = [
                             <template v-slot:actions="{ row }">
                                 <div class="">
                                     <Link :href="route('deliverables.edit', row.id)">
-                                    Edit
+                                    <BreezeButton>
+                                        Edit
+                                    </BreezeButton>
                                     </Link>
                                 </div>
                             </template>

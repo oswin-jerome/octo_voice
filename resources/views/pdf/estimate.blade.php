@@ -53,21 +53,17 @@
 </head>
 
 <body style="" class="p-10">
-    <h1 class="text-2xl font-bold text-center mb-6">Estimation</h1>
+    <h1 class="text-2xl font-bold text-center mb-0">Estimation</h1>
     <div class="mb-10">
-        <div class="float-right">
-            <p class="text-sm"><b>Valid till:</b> {{ $estimate->valid_till }} </p>
+        <div class="text-center">
+            <p class="text-xs"><b>Valid till:</b> {{ $estimate->valid_till }} </p>
         </div>
-        <div class="float-">
-            <h2 class="font-bold">Customer Details</h2>
-            <p class="text-sm "><b>Name:</b> {{ $estimate->customer->name }} </p>
-            <p class="text-sm "><b>Phone:</b> {{ $estimate->customer->phone }} </p>
-            <p class="text-sm "><b>Email:</b> {{ $estimate->customer->email }} </p>
-            <p class="text-sm w-72"><b>Address:</b> <br />{{ $estimate->customer->address }} </p>
 
-        </div>
     </div>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
+    @include('pdf.partials.both_address', ['customer' => $estimate->customer])
+
+
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-10">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="bg-gray-50" style="background-color:rgb(209 213 219)">
                 <th class="px-4 py-3 text-left">Deliverable</th>

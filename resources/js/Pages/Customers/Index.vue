@@ -1,7 +1,7 @@
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Customers" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -27,7 +27,17 @@
 
                         <DTable :data="customers.data" :columns="columns" :meta="{
                             last_page: customers.last_page,
-                        }"></DTable>
+                        }">
+                            <template v-slot:actions="{ row }">
+                                <div>
+                                    <Link :href="route('customers.edit', row.id)">
+                                    <BreezeButton>
+                                        Edit
+                                    </BreezeButton>
+                                    </Link>
+                                </div>
+                            </template>
+                        </DTable>
                     </div>
                 </div>
             </div>
@@ -63,6 +73,10 @@ const columns = [
         label: "Phone",
         sort: true,
         filter: true
+    },
+    {
+        name: "actions",
+        label: "Actions",
     },
 ]
 

@@ -100,7 +100,7 @@ const removeItem = (ind) => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Edit Invoice" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

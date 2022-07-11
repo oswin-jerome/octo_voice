@@ -36,7 +36,7 @@ const submit = () => {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Create Expense" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
