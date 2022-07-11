@@ -175,7 +175,7 @@ const removeItem = (ind) => {
 
                                     <BreezeButton class="" :class="{ 'opacity-25': form.processing }"
                                         :disabled="form.processing">
-                                        Submit
+                                        Add
                                     </BreezeButton>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@ const removeItem = (ind) => {
                         </table>
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg grid grid-cols-4">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg grid grid-cols-1 md:grid-cols-4">
                     <div class="col-span-3 p-3">
 
                         <p>Sub Total: {{ subtotal }}</p>

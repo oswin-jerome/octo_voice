@@ -53,22 +53,18 @@
 </head>
 
 <body style="" class="p-10">
-    <h1 class="text-2xl font-bold text-center mb-6">Invoice # : INV-{{ str_pad($invoice->id, 4, '0', STR_PAD_LEFT) }}
+    <h1 class="text-2xl font-bold text-center mb-2 mt-10">Invoice # :
+        INV-{{ str_pad($invoice->id, 4, '0', STR_PAD_LEFT) }}
     </h1>
     <div class="mb-10">
-        <div class="float-right">
+        <div class="text-center">
             <p class="text-sm"><b>Date :</b> {{ $invoice->created_at }} </p>
         </div>
-        <div class="float-">
-            <h2 class="font-bold">Customer Details</h2>
-            <p class="text-sm "><b>Name:</b> {{ $invoice->customer->name }} </p>
-            <p class="text-sm "><b>Phone:</b> {{ $invoice->customer->phone }} </p>
-            <p class="text-sm "><b>Email:</b> {{ $invoice->customer->email }} </p>
-            <p class="text-sm w-72"><b>Address:</b> <br />{{ $invoice->customer->address }} </p>
 
-        </div>
+
     </div>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
+    @include('pdf.partials.both_address', ['customer' => $invoice->customer])
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-10">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="bg-gray-50" style="background-color:rgb(209 213 219)">
                 <th class="px-4 py-3 text-left">Deliverable</th>
