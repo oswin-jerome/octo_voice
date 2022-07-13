@@ -20,4 +20,15 @@ class Setting extends Model
             return null;
         }
     }
+
+    public static function setSetting($key, $value)
+    {
+        $setting = static::where("key", $key)->first();
+        if ($setting) {
+            $setting->value = $value;
+            $setting->save();
+        } else {
+            static::create(['key' => $key, 'value' => $value]);
+        }
+    }
 }

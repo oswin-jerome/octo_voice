@@ -31,5 +31,9 @@ class SettingSeeder extends Seeder
             'key' => 'company_email',
             'value' => 'Laravel',
         ]);
+        Setting::create([
+            'key' => 'id_format',
+            'value' => '{{INDEX}}',
+        ]);
     }
 }

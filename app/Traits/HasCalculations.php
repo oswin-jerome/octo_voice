@@ -22,7 +22,7 @@ trait HasCalculations
         $discount = $this->discount_amount;
         $taxAmount = $this->tax_amount;
         $temp = $temp + $taxAmount - $discount;
-        return $temp;
+        return round($temp, 2);
     }
 
     public function getTaxAmountAttribute()
