@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Models\Setting;
+use Inertia\Inertia;
 
 class SettingController extends Controller
 {
@@ -15,7 +16,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $data = [];
+        Setting::all()->each(function ($setting) use (&$data) {
+            $data[$setting->key] = $setting->value;
+        });
+        return Inertia::render('Settings', [
+            'settings' => $data,
+        ]);
     }
 
     /**
@@ -68,9 +75,10 @@ class SettingController extends Controller
      * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSettingRequest $request, Setting $setting)
+    public function update(UpdateSettingRequest $request)
     {
-        //
+        Setting::setSetting($request->key, $request->value);
+        return redirect()->back();
     }
 
     /**

@@ -91,6 +91,26 @@ const columns = [
                                     <status-badge :status="row.status" />
                                 </div>
                             </template>
+                            <template v-slot:total="{ row }">
+                                <div>
+                                    {{ parseFloat(row.total).toFixed(2) }}
+                                </div>
+                            </template>
+                            <template v-slot:balance="{ row }">
+                                <div>
+                                    {{ parseFloat(row.balance).toFixed(2) }}
+                                </div>
+                            </template>
+                            <template v-slot:expense="{ row }">
+                                <div>
+                                    {{ parseFloat(row.expense).toFixed(2) }}
+                                </div>
+                            </template>
+                            <template v-slot:profit="{ row }">
+                                <div>
+                                    {{ parseFloat(row.profit).toFixed(2) }}
+                                </div>
+                            </template>
                             <template v-slot:actions="{ row }">
                                 <div class="flex gap-2 items-center">
                                     <BreezeButton :disabled="row.status != 'draft'"

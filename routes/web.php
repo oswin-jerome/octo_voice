@@ -7,6 +7,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 use App\Models\Customer;
 use App\Models\Estimate;
 use App\Models\Invoice;
@@ -83,6 +84,7 @@ Route::middleware("auth")->group(function () {
 
 
     Route::resource('expenses', ExpenseController::class);
+    Route::resource('settings', SettingController::class);
 
 
     // Payments
