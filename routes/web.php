@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliverableController;
 use App\Http\Controllers\EstimateController;
@@ -85,6 +86,13 @@ Route::middleware("auth")->group(function () {
 
     Route::resource('expenses', ExpenseController::class);
     Route::resource('settings', SettingController::class);
+
+    Route::prefix('assets')->group(function () {
+        Route::get('/checkout/create', [AssetController::class, "create_checkout"])->name("assets.create_checkout");
+        Route::post('/checkout', [AssetController::class, "checkout"])->name("assets.checkout");
+    });
+    Route::resource('assets', AssetController::class);
+
 
 
     // Payments

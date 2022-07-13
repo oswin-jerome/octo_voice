@@ -66,6 +66,11 @@ const showingNavigationDropdown = ref(false);
                                 </BreezeNavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex cursor-pointer">
+                                <BreezeNavLink :href="route('assets.index')" :active="route().current('assets.*')">
+                                    Assets
+                                </BreezeNavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex cursor-pointer">
                                 <BreezeNavLink :href="route('reports.index')" :active="route().current('reports.*')">
                                     Reports
                                 </BreezeNavLink>
