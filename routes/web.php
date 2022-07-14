@@ -89,7 +89,9 @@ Route::middleware("auth")->group(function () {
 
     Route::prefix('assets')->group(function () {
         Route::get('/checkout/create', [AssetController::class, "create_checkout"])->name("assets.create_checkout");
+        Route::get('/checkin/create', [AssetController::class, "create_checkin"])->name("assets.create_checkin");
         Route::post('/checkout', [AssetController::class, "checkout"])->name("assets.checkout");
+        Route::post('/checkin', [AssetController::class, "checkin"])->name("assets.checkin");
     });
     Route::resource('assets', AssetController::class);
 

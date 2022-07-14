@@ -106,11 +106,32 @@ class AssetController extends Controller
             "users" => User::all(),
         ]);
     }
+    public function create_checkin(Request $request)
+    {
+        return Inertia::render('Assets/Checkin', [
+            "assets" => Asset::where("status", "<>", "checked_in")->get(),
+        ]);
+    }
     public function checkout(StoreAssetTransactionRequest $request)
     {
         $asset = Asset::find($request->asset_id);
         $asset->user_id = $request->user_id;
         $asset->current_status = 'checked_out';
+        if ($asset->current_status == 'checked_in') {
+            $asset->user_id = null;
+        }
+        $asset->save();
+
+        AssetTransaction::create($request->validated());
+
+        return Redirect::route('assets.index');
+    }
+    public function checkin(StoreAssetTransactionRequest $request)
+    {
+        $asset = Asset::find($request->asset_id);
+        $asset->user_id = $request->user_id;
+        $request->user_id = $asset->user_id;
+        $asset->current_status = 'checked_in';
         if ($asset->current_status == 'checked_in') {
             $asset->user_id = null;
         }
